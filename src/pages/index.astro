@@ -12,7 +12,7 @@ function isComponent(entry: string): entry is keyof typeof data {
   return entry in data;
 }
 
-const base = import.meta.env.PROD ? new URL("donald.css", Astro.site) : "";
+const base = import.meta.env.PROD ? "/donald.css" : "";
 ---
 
 <Layout title="Donald components" class="pb-32">

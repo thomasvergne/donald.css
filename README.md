@@ -76,7 +76,7 @@ Contributions are what make open-source communities such an amazing place to lea
 - If you have suggestions for adding or removing projects, feel free to [open an issue](https://github.com/thomasvergne/donald.css/issues/new) to discuss it, or directly create a pull request after you edit the _README.md_ file with the necessary changes.
 - Please make sure you check your spelling and grammar.
 - Create individual PR for each suggestion.
-- Please also read through the [Code Of Conduct](https://github.com/thomasvergne/donald.css/blob/main/CODE_OF_CONDUCT.md) before posting your first idea as well.
+- Please also read through the [Code Of Conduct](https://github.com/thomasvergne/donald.css/blob/main/CODE-OF-CONDUCT.md) before posting your first idea as well.
 
 ### Creating A Pull Request
 

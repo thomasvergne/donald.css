@@ -11,10 +11,12 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
+const base = import.meta.env.PROD ? "/donald.css" : "";
+
 const {
   title,
   description = SITE_DESCRIPTION,
-  image = "/background.png",
+  image = `${base}/background.png`,
   ...props
 } = Astro.props;
 ---
@@ -28,7 +30,7 @@ const {
     <link
       rel="icon"
       type="image/svg+xml"
-      href={new URL("logo.png", Astro.url)}
+      href={new URL(`${base}/logo.png`, Astro.url)}
     />
     <meta name="generator" content={Astro.generator} />
 

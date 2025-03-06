@@ -11,6 +11,8 @@ const categories = groupByPrefix(components);
 function isComponent(entry: string): entry is keyof typeof data {
   return entry in data;
 }
+
+const base = import.meta.env.PROD ? new URL("donald.css", Astro.site) : "";
 ---
 
 <Layout title="Donald components" class="pb-32">
@@ -32,14 +34,14 @@ function isComponent(entry: string): entry is keyof typeof data {
                 <li class="menu-title">Components</li>
                 {components.map(({ id }) => (
                   <li class="font-mono">
-                    <a href={`/${category}#${id.split("/")[1]}`}>{id}</a>
+                    <a href={`${base}/${category}#${id.split("/")[1]}`}>{id}</a>
                   </li>
                 ))}
               </ul>
             </div>
 
             <footer class="card-footer">
-              <a href={`/${category}`} class="btn btn-primary">
+              <a href={`${base}/${category}`} class="btn btn-primary">
                 View all
               </a>
             </footer>

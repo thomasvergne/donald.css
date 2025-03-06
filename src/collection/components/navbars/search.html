@@ -1,0 +1,27 @@
+<nav class="navbar max-w-6xl max-sm:flex-wrap mx-auto gap-y-4">
+  <span class="navbar-start">
+    <button class="btn btn-ghost"> ACME </button>
+  </span>
+
+  <div class="sm:hidden navbar-end">
+    <label for="navigation-button-1" class="btn btn-circle btn-ghost">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-menu">
+        <line x1="4" x2="20" y1="12" y2="12" />
+        <line x1="4" x2="20" y1="6" y2="6" />
+        <line x1="4" x2="20" y1="18" y2="18" />
+      </svg>
+    </label>
+  </div>
+
+  <input type="checkbox" hidden id="navigation-button-1" class="peer/check">
+
+  <input type="text" class="input sm:navbar-center max-sm:w-full" placeholder="Search...">
+
+  <ul class="sm:navbar-end gap-4 max-sm:peer-checked/check:block max-sm:hidden max-sm:w-full">
+    <a href="" class="btn btn-ghost max-sm:btn-block"> Home </a>
+    <a href="" class="btn btn-ghost max-sm:btn-block"> About </a>
+    <a href="" class="btn btn-primary max-sm:btn-block"> Contact </a>
+  </ul>
+</nav>

@@ -1,0 +1,51 @@
+---
+import { groupByPrefix } from "#/components/chunk";
+import Navigation from "#/components/Navigation.astro";
+import Layout from "#/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import data from "#/collection/components.json";
+
+const components = await getCollection("components");
+const categories = groupByPrefix(components);
+
+function isComponent(entry: string): entry is keyof typeof data {
+  return entry in data;
+}
+---
+
+<Layout title="Donald components" class="pb-32">
+  <Navigation />
+
+  <section class="max-w-6xl mx-auto px-4 mt-32 grid md:grid-cols-4 gap-8">
+    {
+      Object.entries(categories).map(([category, components]) => {
+        if (!isComponent(category)) return null;
+
+        return (
+          <article class="card">
+            <header class="card-header">
+              <h2 class="card-title">{data[category]}</h2>
+            </header>
+
+            <div class="card-body px-0">
+              <ul class="menu bg-base-200">
+                <li class="menu-title">Components</li>
+                {components.map(({ id }) => (
+                  <li class="font-mono">
+                    <a href={`/${category}#${id.split("/")[1]}`}>{id}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <footer class="card-footer">
+              <a href={`/${category}`} class="btn btn-primary">
+                View all
+              </a>
+            </footer>
+          </article>
+        );
+      })
+    }
+  </section>
+</Layout>

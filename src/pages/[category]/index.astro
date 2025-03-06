@@ -1,0 +1,109 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import Layout from "#/layouts/Layout.astro";
+import { Code } from "astro:components";
+import Navigation from "#/components/Navigation.astro";
+import { groupByPrefix } from "#/components/chunk";
+
+// Chunk array based on a given criteri
+
+export const getStaticPaths = (async () => {
+  const collection = await getCollection("components");
+
+  const result = [];
+
+  for (const [prefix, entries] of Object.entries(groupByPrefix(collection))) {
+    result.push({
+      params: { category: prefix },
+      props: { components: entries, collection: prefix },
+    });
+  }
+
+  return result;
+}) satisfies GetStaticPaths;
+
+const { components } = Astro.props;
+---
+
+<Layout title="Donald components">
+  <Navigation />
+  <ol class="grid grid-cols-1 gap-8 max-w-6xl mx-auto px-4">
+    {
+      components.map((component, i) => (
+        <>
+          <li id={component.id.split("/")[1]}>
+            <span class="badge badge-primary badge-xs mr-2 font-mono sm:hidden">
+              {component.id}
+            </span>
+            <div class="tabs items-center">
+              <span class="badge badge-primary mr-2 font-mono max-sm:hidden">
+                {component.id}
+              </span>
+
+              <input
+                type="radio"
+                name={`my_tabs_code_${i}`}
+                class="tab"
+                checked="checked"
+                aria-label="Preview"
+              />
+              <div class="tab-content bg-base-100">
+                <Fragment set:html={component.data.content} />
+              </div>
+
+              <input
+                type="radio"
+                class="tab"
+                aria-label="Code"
+                name={`my_tabs_code_${i}`}
+              />
+              <div
+                class="tab-content"
+                data-code={component.data.content}
+                data-index={i}
+              >
+                <Code
+                  class="p-4 rounded-lg mt-2 max-h-128"
+                  lang="html"
+                  code={component.data.content}
+                />
+              </div>
+
+              <div class="flex-auto justify-end flex copy-btn mb-2">
+                <button class="btn btn-ghost block z-10" data-component={i}>
+                  Copy code
+                </button>
+              </div>
+            </div>
+          </li>
+
+          <hr class="border-base-300" />
+        </>
+      ))
+    }
+  </ol>
+</Layout>
+
+<script>
+  const copyButtons =
+    document.querySelectorAll<HTMLButtonElement>(".copy-btn button");
+
+  if (!copyButtons) throw new Error("No copy buttons found");
+
+  copyButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const componentIndex = button.dataset.component;
+
+      if (!componentIndex) throw new Error("No component index found");
+
+      const code = document.querySelector<HTMLDivElement>(
+        `[data-index="${componentIndex}"]`
+      );
+
+      if (!code || !code.dataset.code) throw new Error("No code found");
+
+      navigator.clipboard.writeText(code.dataset.code);
+    });
+  });
+</script>

@@ -1,0 +1,146 @@
+---
+import { Image } from "astro:assets";
+
+const daisyuiThemes = {
+  light: "light",
+  dark: "dark",
+  cupcake: "cupcake",
+  bumblebee: "bumblebee",
+  emerald: "emerald",
+  corporate: "corporate",
+  synthwave: "synthwave",
+  retro: "retro",
+  cyberpunk: "cyberpunk",
+  valentine: "valentine",
+  halloween: "halloween",
+  garden: "garden",
+  forest: "forest",
+  aqua: "aqua",
+  lofi: "lofi",
+  pastel: "pastel",
+  fantasy: "fantasy",
+  wireframe: "wireframe",
+  black: "black",
+  luxury: "luxury",
+  dracula: "dracula",
+  none: "none",
+};
+---
+
+<nav class="navbar max-w-6xl max-sm:flex-wrap mx-auto gap-y-4 py-8">
+  <span class="navbar-start">
+    <a class="btn btn-ghost" href="/">
+      <Image
+        src="/logo.png"
+        alt="Donald Components"
+        class="size-6"
+        width="32"
+        height="32"
+      />
+      <span class="max-sm:hidden ml-2"> Donald Components</span>
+    </a>
+  </span>
+
+  <div class="sm:hidden navbar-end">
+    <label for="navigation-button-1" class="btn btn-circle btn-ghost">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-menu"
+      >
+        <line x1="4" x2="20" y1="12" y2="12"></line>
+        <line x1="4" x2="20" y1="6" y2="6"></line>
+        <line x1="4" x2="20" y1="18" y2="18"></line>
+      </svg>
+    </label>
+  </div>
+
+  <input type="checkbox" hidden id="navigation-button-1" class="peer/check" />
+
+  <input
+    type="text"
+    class="input sm:navbar-center max-sm:w-full"
+    placeholder="Search..."
+  />
+
+  <ul
+    class="sm:navbar-end gap-4 max-sm:space-y-2 max-sm:peer-checked/check:block max-sm:hidden max-sm:w-full"
+  >
+    <a href="" class="btn btn-ghost max-sm:btn-block"> GitHub </a>
+
+    <details class="dropdown dropdown-end max-sm:w-full">
+      <summary class="btn btn-primary max-sm:btn-block">
+        Themes
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-chevron-down"
+        >
+          <path d="m6 9 6 6 6-6"></path>
+        </svg>
+      </summary>
+
+      <ul
+        class="menu dropdown-content md:top-16 bg-base-100 shadow-sm w-full sm:w-52 max-h-96 overflow-y-auto p-2 rounded-box z-1"
+      >
+        {
+          Object.entries(daisyuiThemes).map(([key, value]) => (
+            <>
+              <li>
+                <label
+                  for={`theme-${key}`}
+                  class="hover:bg-primary hover:text-primary-content"
+                >
+                  {value}
+                </label>
+              </li>
+
+              <input type="radio" id={`theme-${key}`} name="theme" hidden />
+            </>
+          ))
+        }
+      </ul>
+    </details>
+  </ul>
+</nav>
+
+<script>
+  function setTheme(theme: string) {
+    document.documentElement.dataset.theme = theme;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const theme = localStorage.getItem("theme") || "light";
+    setTheme(theme);
+
+    document
+      .querySelectorAll<HTMLInputElement>("input[type=radio]")
+      .forEach((input) => {
+        input.addEventListener("change", (event) => {
+          if (!event.target) return;
+          const target = event.target as HTMLInputElement;
+
+          if (!target.id.startsWith("theme")) return;
+
+          const theme = target.id.split("-")[1];
+          console.log(theme);
+          localStorage.setItem("theme", theme);
+          setTheme(theme);
+        });
+      });
+  });
+</script>

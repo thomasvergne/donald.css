@@ -31,7 +31,7 @@ const base = import.meta.env.PROD ? new URL("donald.css", Astro.site) : "";
 
 <nav class="navbar max-w-6xl max-sm:flex-wrap mx-auto gap-y-4 py-8">
   <span class="navbar-start">
-    <a class="btn btn-ghost" href="/">
+    <a class="btn btn-ghost" href={base}>
       <Image
         src={`${base}/logo.png`}
         alt="Donald Components"

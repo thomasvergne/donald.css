@@ -66,11 +66,19 @@ const base = import.meta.env.PROD ? "/donald.css" : "";
 
   <input type="checkbox" hidden id="navigation-button-1" class="peer/check" />
 
-  <input
-    type="text"
-    class="input sm:navbar-center max-sm:w-full"
-    placeholder="Search..."
-  />
+  <form
+    action={`${base}/search`}
+    method="GET"
+    enctype="application/x-www-form-urlencoded"
+    class="sm:navbar-center sm:max-w-96 w-full"
+  >
+    <input
+      type="text"
+      class="input max-sm:w-full"
+      placeholder="Search..."
+      name="q"
+    />
+  </form>
 
   <ul
     class="sm:navbar-end gap-4 max-sm:space-y-2 max-sm:peer-checked/check:block max-sm:hidden max-sm:w-full"

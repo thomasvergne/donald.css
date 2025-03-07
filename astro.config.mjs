@@ -5,7 +5,7 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://thomasvergne.github.io',
-  base: 'donald.css',
+  base: import.meta.env.PROD ? 'donald.css' : undefined,
   vite: {
     plugins: [tailwindcss()],
   },

@@ -1,0 +1,67 @@
+---
+import Navigation from "#/components/Navigation.astro";
+import Layout from "#/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const collection = await getCollection("components");
+const base = import.meta.env.PROD ? "/donald.css" : "";
+---
+
+<Layout title="Donald components" class="pb-32">
+  <Navigation />
+
+  <section class="max-w-6xl mx-auto px-4 mt-32 gap-8 grid">
+    <h1 class="text-4xl font-bold">
+      Search results for <span data-search-result></span>
+    </h1>
+
+    {
+      collection.map((component) => {
+        const [category, id] = component.id.split("/");
+        return (
+          <article
+            class="card bg-base-200 card-border p-4 flex flex-row items-center"
+            data-component-name={component.id}
+          >
+            <header class="card-header flex-auto">
+              <h2 class="card-title">{component.id}</h2>
+            </header>
+
+            <footer class="card-actions">
+              <a href={`${base}/${category}#${id}`} class="btn btn-primary">
+                View component
+              </a>
+            </footer>
+          </article>
+        );
+      })
+    }
+  </section>
+</Layout>
+
+<script>
+  // Get the search query from the URL
+  const url = new URL(document.URL);
+  const searchResult = url.searchParams.get("q");
+  const searchResultElement = document.querySelector("[data-search-result]");
+
+  if (searchResultElement) {
+    searchResultElement.textContent = searchResult;
+  }
+
+  // Filter components based on the search query
+
+  const components = document.querySelectorAll<HTMLDivElement>(
+    "[data-component-name]"
+  );
+  components.forEach((component) => {
+    const name = component.getAttribute("data-component-name");
+
+    if (!name) return;
+    if (!searchResult) return;
+
+    if (!name.includes(searchResult)) {
+      component.style.display = "none";
+    }
+  });
+</script>

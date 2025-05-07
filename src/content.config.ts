@@ -1,7 +1,7 @@
 import type { Loader } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import { glob } from "glob";
-import * as path from "path";
+import * as path from "node:path";
 import * as fs from "node:fs/promises";
 
 const components = defineCollection({
